@@ -11,9 +11,19 @@ class RectangularGrid extends Grid {
 				$this->tiles[$i][$j] = 0;
 			}
 		}
-		#var_dump($this->tiles);
 	}
 	
+	function __toString() {
+		foreach ($this->tiles as $a) {
+			foreach ($a as $tile) {
+				$output .= $tile . " ";
+			}
+			$output .= "\n";
+		}
+		return $output;
+	}
 }
 
+
 $test = new RectangularGrid(10, 20);
+echo $test;
