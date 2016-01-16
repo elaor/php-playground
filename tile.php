@@ -13,13 +13,13 @@ Class Tile {
 	}
 	
 	public function isClear() {
-		return $isClear;
+		return $this->isClear;
 	}
 	
 	public function __toString() {
 		if ($this->isClear) {
-			return "0";
+			return 0;
 		}
-		return "1";
+		return 1;
 	}
 }

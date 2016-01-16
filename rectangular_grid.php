@@ -10,7 +10,7 @@ class RectangularGrid extends Grid {
 	
 	public function __construct($maxCoordinates) {
 		$this->maxCoordinate = $maxCoordinates;
-		if (!$this->isValid($maxCoordinates)) {
+		if (!($maxCoordinates->getX() > 0 && $maxCoordinates->getY() > 0)) {
 			# TODO: Raise error
 		}
 		for ($i = 0; $i < $maxCoordinates->getX() + 1; $i++) {
@@ -27,9 +27,11 @@ class RectangularGrid extends Grid {
 	}
 	
 	public function isValid($coordinates) {
+		#echo "coord to check " . $coordinates . "\n";
+		#echo "max coord " . $this->maxCoordinate , "\n";
 		$x = $coordinates->getX();
 		$y = $coordinates->getY();
-		if ($x <= 0 || $y <= 0) {
+		if ($x < 0 || $y < 0) {
 			return false;
 		}
 		if ($x > $this->maxCoordinate->getX() || $y > $this->maxCoordinate->getY()) {
@@ -51,7 +53,7 @@ class RectangularGrid extends Grid {
 	}
 }
 
-$c = new RectangularCoordinates(20, 10);
-$test = new RectangularGrid($c);
-echo $test;
+#$c = new RectangularCoordinates(20, 10);
+#$test = new RectangularGrid($c);
+#echo $test;
 
