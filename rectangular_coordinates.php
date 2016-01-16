@@ -1,6 +1,12 @@
 <?php
 include_once 'coordinates.php';
 
+class Directions {
+	public static $EAST = 0;
+	public static $NORTH = 1;
+	public static $WEST = 2;
+	public static $SOUTH = 3;
+}
 class RectangularCoordinates extends coordinates {
 
 	private $x;
