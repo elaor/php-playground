@@ -38,6 +38,6 @@ $openList->insert($nodeC, -$nodeC->getFValue());
 
 while (!$openList->isEmpty()) {
 	$node = $openList->extract();
-	echo $node;
+	
 }
 
