@@ -1,5 +1,5 @@
 <?php
-include 'hex_index.php';
+include 'hex_coordinates.php';
 class HexGrid {
 	function __construct($max) {
 		$this->max = $max;
