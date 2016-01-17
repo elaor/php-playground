@@ -1,24 +1,27 @@
 <?php
 include_once 'coordinates.php';
-// class HexDirections {
-// 	public static $EAST = new HexCoordinates(1, 0);
-// 	public static $NORTH_EAST = new HexCoordinates(0, 1);
-// 	public static $NORTH_WEST = new HexCoordinates(-1, 1);
-// 	public static $WEST = new HexCoordinates(-1, 0);
-// 	public static $SOUTH_WEST = new HexCoordinates(0, -1);
-// 	public static $SOUTH_EAST = new HexCoordinates(1, -1);
-// }
+class HexDirections {
+	private static $neighbors = null;
+	const EAST = 0;
+	const NORTH_EAST = 1;
+	const NORTH_WEST = 2;
+	const WEST = 3;
+	const SOUTH_WEST = 4;
+	const SOUTH_EAST = 5;
+	public static function getNeighbors()
+	{
+		if ($this->neighbors === null) {
+			$this->neighbors[EAST] = HexCoordinates(1, 0);
+			$this->neighbors[NORTH_EAST] = HexCoordinates(0, 1);
+			$this->neighbors[NORTH_WEST] = HexCoordinates(-1, 1);
+			$this->neighbors[WEST] = HexCoordinates(-1, 0);
+			$this->neighbors[SOUTH_WEST] = HexCoordinates(0, -1);
+			$this->neighbors[SOUTH_EAST] = HexCoordinates(1, -1);
+		}
+		return $this->neighbors;
+	}
+}
 class HexCoordinates extends Coordinates {
-// 	public static $EAST = static(1, 0);
-// 	public static $directions = array(
-// 		'EAST' => static(1, 0),
-// 		'NORTH_EAST' => new HexCoordinates(0, 1),
-// 		'NORTH_WEST' => new HexCoordinates(-1, 1),
-// 		'WEST' => new HexCoordinates(-1, 0),
-// 		'SOUTH_WEST' => new HexCoordinates(0, -1),
-// 		'SOUTH_EAST' => new HexCoordinates(1, -1)
-// 	);
-
 	function __construct($x = 0, $y = 0) {
 		$this->set ( $x, $y );
 	}
@@ -36,24 +39,11 @@ class HexCoordinates extends Coordinates {
 	public function getZ() {
 		return $z;
 	}
+	public function add($other) {
+		return new self($this->x + $other->x, $this->y + $other->y);
+	}
 	function getNeighbor($direction) {
-		switch($direction) {
-			case HexDirections::$NORTH_EAST: 
-				return new HexCoordinates($this->x, $this->y + 1);
-				break;
-			case HexDirections::$EAST:
-				return new HexCoordinates($this->x + 1, $this->y);
-				break;
-			case "south":
-				return new HexCoordinates($this->x, $this->y - 1);
-				break;
-			case HexDirections::$SOUTH:
-				return new HexCoordinates($this->x - 1, $this->y);
-				break;
-			default:
-				# TODO raise error
-				return NULL;
-		}
+		return $this->add(HexDirections::getNeighbors()[$direction]);
 	}
 	private $x;
 	private $y;
