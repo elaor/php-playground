@@ -31,16 +31,25 @@ class HexCoordinates extends Coordinates {
 		$this->z = - $y - $x;
 	}
 	public function getX() {
-		return $x;
+		return $this->x;
 	}
 	public function getY() {
-		return $y;
+		return $this->y;
 	}
 	public function getZ() {
-		return $z;
+		return $this->z;
 	}
 	public function add($other) {
 		return new self($this->x + $other->x, $this->y + $other->y);
+	}
+	public function scale($factor){
+		$this->x * $factor;
+		$this->y * $factor;
+		$this->z = - $this->x - $this->y;
+		return $this;
+	}
+	public function getLength() {
+		return max(abs($this->x), abs($this->y), abs($this->z));
 	}
 	function getNeighbor($direction) {
 		return $this->add(HexDirections::getNeighbors()[$direction]);
