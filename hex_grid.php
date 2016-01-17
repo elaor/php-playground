@@ -1,5 +1,5 @@
 <?php
-include 'hex_coordinates.php';
+require_once 'hex_coordinates.php';
 class HexGrid {
 	function __construct($max) {
 		$this->size = $max;

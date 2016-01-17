@@ -1,7 +1,7 @@
 <?php
-include_once 'grid.php';
-include_once 'rectangular_coordinates.php';
-include_once 'tile.php';
+require_once 'grid.php';
+require_once 'rectangular_coordinates.php';
+require_once 'tile.php';
 
 class RectangularGrid extends Grid {
 	

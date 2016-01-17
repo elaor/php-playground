@@ -1,5 +1,5 @@
 <?php
-include_once 'coordinates.php';
+require_once 'coordinates.php';
 
 class Directions {
 	const NORTH = 0;

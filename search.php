@@ -1,5 +1,5 @@
 <?php
-include_once 'rectangular_coordinates.php';
+require_once 'rectangular_coordinates.php';
 
 class Node {
 	
