@@ -1,7 +1,7 @@
 <?php
 require_once 'hex_grid.php';
 require_once 'hex_coordinates.php';
-echo "Hello World\n";
+echo "<h1>Hello World\n</h1>";
 echo "Creating Grid...\n";
 $test = new HexGrid(new HexCoordinates(5,5));
 echo "printing grid...";
