@@ -49,6 +49,20 @@ class RectangularCoordinates extends coordinates {
 	function __toString() {
 		return "(" . $this->x . ", " . $this->y . ")";
 	}
+	
+	public function add($other) {
+		return new self ($this->x + $other->x, $this->y + $other->y);
+	}
+	
+	public function scale($factor) {
+		$this->set($this->x * $factor, $this->y * $factor);
+		return $this;
+	}
+	
+	public function length() {
+		// TODO
+		return null;
+	}
 }
 
 #$c0 = new RectangularCoordinates(4, 1);

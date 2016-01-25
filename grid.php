@@ -8,9 +8,9 @@ abstract class Grid {
 	
 	public abstract function isValid($coordinates);
 	
+	public abstract function toHTML();
+	
 	public final function getDirections() {
 		return $this->directions;
 	}
-	
-
 }
