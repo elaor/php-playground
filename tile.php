@@ -23,11 +23,4 @@ Class Tile {
 		return 1;
 	}
 	
-	public function toHTML() {
-		$classTile = "tile_clear";
-		if (!($this->isClear)) {
-			$classTile = "tile_occupied";
-		}
-		return "<div class=\"$classTile\"></div>";
-	}
 }

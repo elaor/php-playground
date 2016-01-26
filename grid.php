@@ -1,16 +1,31 @@
 <?php
 
-abstract class Grid {
-	
-	protected $directions;
-	
-	public abstract function getTile($coordinates);
-	
-	public abstract function isValid($coordinates);
-	
-	public abstract function toHTML();
-	
-	public final function getDirections() {
-		return $this->directions;
-	}
+class Grid
+{
+
+    private $defaultTile;
+
+    private $tiles = null;
+
+    public function __construct ($defaultTile = null)
+    {
+        if ($defaultTile == null) {
+            $defaultTile = new Tile();
+        }
+        $this->defaultTile = $defaultTile;
+        $this->tiles = [];
+    }
+
+    public function getTile ($coordinates)
+    {
+        if (array_key_exists($coordinates->getUniqueIndex(), $this->tiles)) {
+            return $this->tiles[$coordinates->getUniqueIndex()];
+        }
+        return $this->defaultTile;
+    }
+
+    public function setTile ($coordinates, $tile)
+    {
+        $this->tiles[$coordinates->getUniqueIndex()] = $tile;
+    }
 }

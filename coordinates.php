@@ -13,5 +13,5 @@ abstract class Coordinates {
 	}
 	public abstract function length();
 	public abstract function getNeighbor($direction);
-	
+	public abstract function getUniqueIndex();
 }
