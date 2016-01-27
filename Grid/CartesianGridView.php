@@ -36,7 +36,6 @@ class CartesianGridView
     {
         $tile_width = self::MAX_WIDTH / $width;
         $tile_height = self::MAX_HEIGHT / $height;
-        echo $tile_height;
         $this->tile_size = max(1, floor(min($tile_width, $tile_height)));
     }
 
