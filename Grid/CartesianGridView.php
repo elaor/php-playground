@@ -7,14 +7,22 @@ require_once 'Tile.php';
 class CartesianGridView
 {
 
-    const TILE_SIZE_PX = 50;
+    const MAX_WIDTH = 1500;
 
-    public function gridToHTML (Grid $grid, CartesianRegion $region, Coordinates $startPosition=null, Coordinates $goalPosition=null)
+    const MAX_HEIGHT = 1000;
+
+    private $tile_size = 10;
+
+    public function gridToHTML (Grid $grid, CartesianRegion $region, 
+            Coordinates $startPosition = null, Coordinates $goalPosition = null)
     {
+        $tile_size = $this->computeTileSize($region->getWidth(), 
+                $region->getHeight());
         $output = '';
-        $gridWidth = $region->getWidth() * self::TILE_SIZE_PX;
-        $gridHeight = $region->getHeight() * self::TILE_SIZE_PX;
-        $output .= '<div id="box" style="width: ' . $gridWidth . 'px; height:' . $gridHeight . 'px;">';
+        $gridWidth = $region->getWidth() * $this->tile_size;
+        $gridHeight = $region->getHeight() * $this->tile_size;
+        $output .= '<div id="box" style="width: ' . $gridWidth . 'px; height:' .
+                 $gridHeight . 'px;">';
         foreach ($region as $coordinates) {
             $tile = $grid->getTile($coordinates);
             $screenCoords = $this->coordsToScreen($coordinates, $region);
@@ -24,7 +32,16 @@ class CartesianGridView
         return $output;
     }
 
-    private function tileToHTML (Tile $tile, array $screenCoords, Coordinates $coordinates)
+    private function computeTileSize ($width, $height)
+    {
+        $tile_width = self::MAX_WIDTH / $width;
+        $tile_height = self::MAX_HEIGHT / $height;
+        echo $tile_height;
+        $this->tile_size = max(1, floor(min($tile_width, $tile_height)));
+    }
+
+    private function tileToHTML (Tile $tile, array $screenCoords, 
+            Coordinates $coordinates)
     {
         $classTile = 'clear';
         $label = '';
@@ -32,16 +49,18 @@ class CartesianGridView
             $classTile = 'occupied';
         }
         if ($tile->hasStartMarker()) {
-        	$classTile = 'start';
-        	$label = 'start';
+            $classTile = 'start';
+            $label = 'start';
         }
         if ($tile->hasGoalMarker()) {
-        	$classTile = 'goal';
-        	$label = 'goal';
+            $classTile = 'goal';
+            $label = 'goal';
         }
-        return '<div class="tile ' . $classTile . '" style="left:' . $screenCoords[0] .
-               'px; top:' . $screenCoords[1] . 'px; width:' . self::TILE_SIZE_PX . 'px; 
-               height:' . self::TILE_SIZE_PX . 'px;" title="'. $coordinates->__toString() . '">' . $label . '</div>';
+        return '<div class="tile ' . $classTile . '" style="left:' .
+                 $screenCoords[0] . 'px; top:' . $screenCoords[1] . 'px; width:' .
+                 $this->tile_size .
+                 'px; height:' . $this->tile_size . 'px;" title="' . 
+                 $coordinates->__toString() . '">' . $label . '</div>';
     }
 
     private function coordsToScreen ($coordinates, $region)
@@ -51,8 +70,8 @@ class CartesianGridView
         $x = $coordinates->getX() - $min->getX();
         $y = $max->getY() - 1 - $coordinates->getY();
         return [
-                $x * self::TILE_SIZE_PX,
-                $y * self::TILE_SIZE_PX
+                $x * $this->tile_size,
+                $y * $this->tile_size
         ];
     }
 }
