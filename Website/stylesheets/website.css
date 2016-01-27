@@ -1,0 +1,71 @@
+@CHARSET "UTF-8";
+
+body {
+	background: #70e1f5; /* fallback for old browsers */
+	background: -webkit-linear-gradient(to left, #70e1f5 , #ffd194); /* Chrome 10-25, Safari 5.1-6 */
+	background: linear-gradient(to left, #70e1f5 , #ffd194); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */    
+	font-family: 'Lato', Tahoma, Geneva, sans-serif;
+    font-size: 40px;
+}
+
+h1 {
+	font-family: 'Lato', Tahoma, Geneva, sans-serif;
+	font-size: 60px;
+	text-align: center;
+}
+
+div.controls {
+    margin: auto;
+	position: relative;
+	height:50px;
+	width:700px;
+	margin-bottom:10px;
+	font-size:25px;
+}
+
+/**
+input {
+	font-family: Tahoma, Geneva, sans-serif;
+	font-size: 20px;
+	background: #82cfff;
+	border-size: 0px;
+
+}**/
+
+input {
+  font-family: sans-serif;
+  font-weight: lighter;
+  font-size: 20px;
+  appearance: none;
+  box-shadow: none;
+  border-radius: none;
+  margin: 5px;
+}
+
+input[type=submit] {
+    padding:5px 15px; 
+    background: #ffffff; 
+    border:0 none;
+    text-transform: uppercase;
+    font-size:14px;
+    cursor:pointer;
+}
+
+input:focus {
+  outline: none;
+}
+
+.glow {
+  padding: 5px;
+  border: solid 0px gainsboro;
+  -webkit-transition: box-shadow 0.3s, border 0.3s;
+  -moz-transition: box-shadow 0.3s, border 0.3s;
+  -o-transition: box-shadow 0.3s, border 0.3s;
+  transition: box-shadow 0.3s, border 0.3s;
+}
+.glow:focus, .glow.focus {
+  border: solid 0px #707070;
+  -webkit-box-shadow: 0 0 5px 1px #969696;
+  -moz-box-shadow: 0 0 5px 1px #969696;
+  box-shadow: 0 0 5px 1px #969696;
+}

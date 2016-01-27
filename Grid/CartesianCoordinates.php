@@ -4,29 +4,16 @@ require_once 'Coordinates.php';
 
 class CartesianCoordinates extends Coordinates
 {
-    private static $neighbors = null;
-    
-    const NORTH = 0;  
-    const EAST = 1;
-    const SOUTH = 2;
-    const WEST = 3;
-    
-    public static function getNeighbors ()
-    {
-        if (self::$neighbors === null) {
-            self::$neighbors = [
-                    self::EAST => new self(1, 0),
-                    self::NORTH => new self(0, 1),
-                    self::WEST => new self(- 1, 0),
-                    self::SOUTH => new self(0, - 1)
-            ];
-        }
-        return self::$neighbors;
-    }
+    const NORTH = "NORTH";
+    const EAST = "EAST";
+    const SOUTH = "SOUTH";
+    const WEST = "WEST";
     
     private $x;
 
     private $y;
+    
+    private $neighbors;
 
     public function __construct ($x, $y)
     {
@@ -44,17 +31,34 @@ class CartesianCoordinates extends Coordinates
         return $this->y;
     }
 
-    function getNeighbor ($direction)
+    private function computeNeighbors() {
+    	$this->neighbors[NORTH] = $this->add(new CartesianCoordinates(0, 1));
+    	$this->neighbors[EAST] = $this->add(new CartesianCoordinates(1, 0));
+    	$this->neighbors[SOUTH] = $this->add(new CartesianCoordinates(0, -1));
+    	$this->neighbors[WEST] = $this->add(new CartesianCoordinates(-1, 0));
+    }
+    
+    public function getNeighbor($direction)
     {
-        return $this->add(self::getNeighbors()[$direction]);
+    	if (is_null($this->neighbors)) {
+    		$this->computeNeighbors();
+    	}
+        return $this->neighbors[$direction];
+    }
+    
+    public function getNeighbors() {
+    	if (is_null($this->neighbors)) {
+    		$this->computeNeighbors();
+    	}
+    	return $this->neighbors;
     }
 
-    function __toString ()
+    public function __toString ()
     {
         return "(" . $this->x . ", " . $this->y . ")";
     }
 
-    public function add ($other)
+    public function add (Coordinates $other)
     {
         return new self($this->x + $other->x, $this->y + $other->y);
     }

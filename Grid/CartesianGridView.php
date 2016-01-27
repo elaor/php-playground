@@ -14,7 +14,7 @@ class CartesianGridView
         $output = '';
         $gridWidth = $region->getWidth() * self::TILE_SIZE_PX;
         $gridHeight = $region->getHeight() * self::TILE_SIZE_PX;
-        $output .= '<div id="box">';
+        $output .= '<div id="box" style="width: ' . $gridWidth . 'px; height:' . $gridHeight . 'px;">';
         foreach ($region as $coordinates) {
             $tile = $grid->getTile($coordinates);
             $screenCoords = $this->coordsToScreen($coordinates, $region);
@@ -26,12 +26,13 @@ class CartesianGridView
 
     private function tileToHTML ($tile, $screenCoords)
     {
-        $classTile = 'tile_clear';
+        $classTile = 'clear';
         if (! ($tile->isClear())) {
-            $classTile = 'tile_occupied';
+            $classTile = 'occupied';
         }
-        return '<div class="' . $classTile . '" style="left:' . $screenCoords[0] .
-                 '; top:' . $screenCoords[1] . ';"></div>';
+        return '<div class="tile ' . $classTile . '" style="left:' . $screenCoords[0] .
+               'px; top:' . $screenCoords[1] . 'px; width:' . self::TILE_SIZE_PX . 'px; 
+               height:' . self::TILE_SIZE_PX . 'px;"></div>';
     }
 
     private function coordsToScreen ($coordinates, $region)
@@ -59,7 +60,7 @@ if (! debug_backtrace()) {
     $test = new CartesianGridView();
     $output = $test->gridToHTML($grid, $region);
     // display website
-    require '../website/template.html';
+    require '../Website/template.html';
 }
 
 

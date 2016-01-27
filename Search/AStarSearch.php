@@ -1,10 +1,14 @@
 <?php
 namespace GridWorld\Search;
+use GridWorld\Grid\Coordinates;
+use GridWorld\Grid\Grid;
+require_once 'Search.php';
+require_once 'Node.php';
 
 class AStarSearch implements Search {
 
-	# grid world
 	private $grid;
+	private $region;
 	private $initNode;
 	private $goalCoordinates;
 
@@ -16,13 +20,14 @@ class AStarSearch implements Search {
 	private $nodeMap;
 
 
-	public function __construct($start, $goal, $grid) {
-		# use start coordinates to create a search node
+	public function __construct(Coordinates $start, Coordinates $goal, Grid $grid, $region=null) {
+		// Use start coordinates to create a search node
 		$this->initNode = new Node($start, 0);
-		$this->grid = $grid;
 		$this->goalCoordinates = $goal;
+		$this->grid = $grid;
+		$this->region = $region;
 
-		$this->openList = new SplPriorityQueue();
+		$this->openList = new \SplPriorityQueue();
 
 		$nodeMap[$start->getX()][$start->getY()] = $this->initNode;
 		$this->openList->insert($this->initNode, -$this->initNode->getFValue());
@@ -34,40 +39,36 @@ class AStarSearch implements Search {
 			if ($this->closedList[$node->getCoordinates()->getX()][$node->getCoordinates()->getY()] != null) {
 				continue;
 			}
-			#echo "Extract node " . $node . " from open list.\n";
 			if ($node->getCoordinates()->getX() == $this->goalCoordinates->getX() && $node->getCoordinates()->getY() == $this->goalCoordinates->getY()) {
-				echo "Path found!\n";
-				return $node;
+				return true; // Path found
 			}
 			$this->closedList[$node->getCoordinates()->getX()][$node->getCoordinates()->getY()] = true;
 			$this->expandNode($node);
 		}
-		echo "No path found!";
+		return false; // No path found
 	}
 
-	public function expandNode($node) {
-		echo "Expand node " . $node . ".\n";
-		foreach ($this->grid->getDirections() as $direction) {
-			$nextCoordinates = $node->getCoordinates()->getNeighbor($direction);
-			if ($this->grid->isValid($nextCoordinates)) {
-				#echo "Next valid coordinate is " . $nextCoordinates . ".\n";
-				if ($this->grid->getTile($nextCoordinates)->isClear()) {
-					#echo "Next valid coordinate is " . $nextCoordinates . ".\n";
+	private function expandNode(Node $node) {
+		$nextCoordinates = $node->getCoordinates()->getNeighbors();
+		foreach ($nextCoordinates as $direction => $next) {
+			if (is_null ( $this->region ) || $this->region->contains ( $next )) {
+				// Coordinates next lies in the region or we have an open world grid.
+				// Check if the next tile is clear.
+				if ($this->grid->getTile ( $next )->isClear ()) {
 					// Get existing node or create a new one for this coordinate.
-					if ($this->nodeMap[$nextCoordinates->getX()][$nextCoordinates->getY()] == NULL) {
-						$successorNode = new Node($nextCoordinates, $node->getGValue() + 1, $node);
-						$this->openList->insert($successorNode, -$successorNode->getFValue());
-					}
-					else {
-						$successorNode = $this->nodeMap[$nextCoordinates];
-						if (!$this->closedList[$nextCoordinates->getX()][$nextCoordinates->getY()] != null) {
-							if ($node->getGValue() + 1 < $successorNode->getGValue()) {
-								# Shorter path found
-								$successorNode->setGValue($node->getGValue() + 1);
-								$successorNode->setParent($node);
+					if (is_null($this->nodeMap [$next->getX ()] [$next->getY ()])) {
+						$successorNode = new Node ( $next, $node->getGValue () + 1, $node );
+						$this->openList->insert ( $successorNode, - $successorNode->getFValue () );
+					} else {
+						$successorNode = $this->nodeMap [$next];
+						if (is_null($this->closedList [$next->getX ()] [$next->getY ()])) {
+							if ($node->getGValue () + 1 < $successorNode->getGValue ()) {
+								// Shorter path found
+								$successorNode->setGValue ( $node->getGValue () + 1 );
+								$successorNode->setParent ( $node );
 							}
-							$this->openList->insert($successorNode, -$successorNode->getFValue());
-							# Note: nodes could exist multiple times in the open list with different g values
+							$this->openList->insert ( $successorNode, - $successorNode->getFValue () );
+							// Note: nodes could exist multiple times in the open list with different g values
 						}
 					}
 				}

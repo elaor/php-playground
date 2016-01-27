@@ -4,7 +4,7 @@ namespace GridWorld\Search;
 interface Search {
 	
 	/**
-	 * @return void
+	 * @return boolean
 	 */
 	public function run();
 	

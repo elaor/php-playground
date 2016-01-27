@@ -1,0 +1,22 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="stylesheets/website.css">
+<link rel="stylesheet" href="stylesheets/rectangular_grid.css">
+<link href='https://fonts.googleapis.com/css?family=Lato:300italic&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+<title>Gridworld</title>
+</head>
+<body>
+<h1>Gridworld</h1>
+
+<div class="controls"><form action="index.php" method="post">1. Create a grid with size: <input class="glow" type="text" name="width" value="<?php echo $width ?>" maxlength="5" size="5"> X <input class="glow" type="text" name="height" value="<?php echo $height ?>" maxlength="5" size="5"> <input type="submit" value="go"></form></div>
+<div class="controls">2. Choose kind of obstacles: </div>
+<div class="controls">3. Set start [ ][ ] and goal [ ][ ] position.</div>
+<div class="controls">4. Start A*-Search with ... heuristic.</div>
+<?php
+echo $output;
+?>
+<p>Result of A*-Search: <?php echo $searchResult; ?></p>
+</body>
+</html>

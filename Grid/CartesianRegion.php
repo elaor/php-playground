@@ -74,7 +74,7 @@ class CartesianRegion implements \Iterator
         $next = $this->current_element->getNeighbor(CartesianCoordinates::EAST);
         if (! $this->contains($next)) {
             $next = $next->getNeighbor(CartesianCoordinates::NORTH);
-            $next = $next->subtract(CartesianCoordinates::getNeighbors()[CartesianCoordinates::EAST]->scale($this->size->getX()));
+            $next = $next->subtract((new CartesianCoordinates(1, 0))->scale($this->size->getX()));
         }
         $this->current_element = $next;
     }

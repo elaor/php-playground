@@ -3,17 +3,53 @@ namespace GridWorld\Grid;
 
 abstract class Coordinates {
 	
+	/**
+	 * @param Coordinates $other
+	 * @return Coordinates
+	 */
+	public abstract function add(Coordinates $other);
 	
-	public abstract function add($other);
+	/**
+	 * @param integer $factor
+	 * @return Coordinates
+	 */
 	public abstract function scale($factor);
+	
+	/**
+	 * @param integer $factor
+	 * @return Coordinates
+	 */
 	public function multiply($factor) {
 		$result = clone $this;
 		return $result->scale($factor);
 	}
+	
+	/**
+	 * @param Coordinates $other
+	 * @return Coordinates
+	 */
 	public function subtract($other) {
 		return $this->add($other->multiply(-1));
 	}
+	
+	/**
+	 * @return double
+	 */
 	public abstract function length();
+	
+	/**
+	 * @param unknown $direction
+	 * @return Coordinates
+	 */
 	public abstract function getNeighbor($direction);
+	
+	/**
+	 * @return array
+	 */
+	public abstract function getNeighbors();
+	
+	/**
+	 * @return integer
+	 */
 	public abstract function getUniqueIndex();
 }
