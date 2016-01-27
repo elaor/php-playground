@@ -2,8 +2,9 @@
 namespace GridWorld\Grid;
 
 require_once 'CartesianCoordinates.php';
+require_once 'Region.php';
 
-class CartesianRegion implements \Iterator, Region
+class CartesianRegion implements Region
 {
 
     private $min;

@@ -2,7 +2,7 @@
 namespace GridWorld\Grid;
 
 use GridWorld\Grid\Coordinates;
-interface Region extends Iterator
+interface Region extends \Iterator
 {
     
     public function getWidth();
