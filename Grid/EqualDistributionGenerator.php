@@ -1,6 +1,7 @@
 <?php
 namespace GridWorld\Grid;
-
+use GridWorld\Grid\TileGenerator;
+require_once 'TileGenerator.php';
 class EqualDistributionGenerator implements TileGenerator
 {
 

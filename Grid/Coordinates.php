@@ -38,7 +38,7 @@ abstract class Coordinates {
 	public abstract function length();
 	
 	/**
-	 * @param unknown $direction
+	 * @param string $direction
 	 * @return Coordinates
 	 */
 	public abstract function getNeighbor($direction);
@@ -48,8 +48,8 @@ abstract class Coordinates {
 	 */
 	public abstract function getNeighbors();
 	
-	/**
-	 * @return integer
-	 */
+    /**
+     * @return string unique string representation of these coordinates.
+     */
 	public abstract function getUniqueIndex();
 }

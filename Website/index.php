@@ -6,12 +6,14 @@ use GridWorld\Grid\Grid;
 use GridWorld\Grid\Tile;
 use GridWorld\Grid\CartesianGridView;
 use GridWorld\Search\AStarSearch;
+use GridWorld\Grid\EqualDistributionGenerator;
 // TODO how to use autoload?
 // spl_autoload_extensions(".php"); // comma-separated list
 // spl_autoload_register();
 require_once '../Grid/CartesianCoordinates.php';
 require_once '../Grid/CartesianGridView.php';
 require_once '../Search/AStarSearch.php';
+require_once '../Grid/EqualDistributionGenerator.php';
 require_once 'utility.php';
 
 $invalidInput = false;
@@ -58,11 +60,14 @@ if (!$invalidInput) {
 	$grid = new Grid();
 	
 	// 2. Set obstacles
-	$grid->setTile(new CartesianCoordinates(10, 13), new Tile(false));
-	$grid->setTile(new CartesianCoordinates(11, 14), new Tile(false));
-	$grid->setTile(new CartesianCoordinates(12, 16), new Tile(false));
-	$grid->setTile(new CartesianCoordinates(13, 17), new Tile(false));
+	$equal_sampler = new EqualDistributionGenerator(0.3);
+	$equal_sampler->fill_region($grid, $region, new Tile(false));
+// 	$grid->setTile(new CartesianCoordinates(10, 13), new Tile(false));
+// 	$grid->setTile(new CartesianCoordinates(11, 14), new Tile(false));
+// 	$grid->setTile(new CartesianCoordinates(12, 16), new Tile(false));
+// 	$grid->setTile(new CartesianCoordinates(13, 17), new Tile(false));
 	
+	// 3. Set start and goal
 	$start = new CartesianCoordinates($startX, $startY);
 	$startTile = new Tile();
 	$startTile->setStartMarker();
