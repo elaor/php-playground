@@ -2,6 +2,7 @@
 namespace GridWorld\Search;
 use GridWorld\Grid\Coordinates;
 use GridWorld\Grid\Grid;
+use GridWorld\Grid\Region;
 require_once 'Search.php';
 require_once 'Node.php';
 
@@ -10,17 +11,20 @@ class AStarSearch implements Search {
 	private $grid;
 	private $region;
 	private $initNode;
+	private $goalNode;
 	private $goalCoordinates;
 
 	private $openList;
 	private $closedList;
 
-	# For each coordinate, there should be at most one corresponding node.
-	# To avoid duplicates, they are stored in this node map.
+	/**
+	 *  For each coordinate, there should be at most one corresponding node. 
+	 *  To avoid duplicates, they are stored in this node map.
+	 */
 	private $nodeMap;
 
 
-	public function __construct(Coordinates $start, Coordinates $goal, Grid $grid, $region=null) {
+	public function __construct(Coordinates $start, Coordinates $goal, Grid $grid, Region $region=null) {
 		// Use start coordinates to create a search node
 		$this->initNode = new Node($start, 0);
 		$this->goalCoordinates = $goal;
@@ -40,12 +44,13 @@ class AStarSearch implements Search {
 				continue;
 			}
 			if ($node->getCoordinates()->getX() == $this->goalCoordinates->getX() && $node->getCoordinates()->getY() == $this->goalCoordinates->getY()) {
-				return true; // Path found
+				$this->goalNode = $node;
+				return true;
 			}
 			$this->closedList[$node->getCoordinates()->getX()][$node->getCoordinates()->getY()] = true;
 			$this->expandNode($node);
 		}
-		return false; // No path found
+		return false;
 	}
 
 	private function expandNode(Node $node) {
@@ -74,5 +79,17 @@ class AStarSearch implements Search {
 				}
 			}
 		}
+	}
+	
+	public function extractPath() {
+		
+	}
+	
+	public function extractPlan() {
+		$plan = [];
+		if (! is_null($this->goalNode)) {
+			
+		}
+		return $plan;
 	}
 }

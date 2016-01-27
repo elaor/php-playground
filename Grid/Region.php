@@ -1,4 +1,6 @@
+<<<<<<< HEAD
 <?php
+namespace GridWorld\Grid;
 
 use GridWorld\Grid\Coordinates;
 interface Region extends Iterator
