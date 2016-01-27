@@ -1,6 +1,8 @@
 <?php
 namespace GridWorld\Search;
 
+use GridWorld\Grid\Coordinates;
+
 class Node {
 
 	private $coordinates;
@@ -36,16 +38,14 @@ class Node {
 	 * @param unknown $parent
 	 * @param number $hValue
 	 */
-	public function __construct(Coordinate $coordinate, $gValue, Node $parent = NULL, $hValue = 1) {
+	public function __construct(Coordinates $coordinate, $gValue, Node $parent = NULL, $label = "", $hValue = 1) {
 		$this->coordinates = $coordinate;
 		$this->gValue = $gValue;
 		$this->hValue = $hValue;
 		$this->parent = $parent;
+		$this->label = $label;
 	}
 
-	/**
-	 * 
-	 */
 	public function getGValue() {
 		return $this->gValue;
 	}
@@ -62,8 +62,16 @@ class Node {
 		return $this->coordinates;
 	}
 
+	public function getParent() {
+		return $this->parent;
+	}
+	
 	public function setParent($node) {
 		$this->parent = $node;
+	}
+	
+	public function getLabel() {
+		return $this->label;
 	}
 
 	public function __toString() {
