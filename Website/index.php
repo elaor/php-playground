@@ -1,10 +1,13 @@
-<?php 
+<?php
+
 use GridWorld\Grid\CartesianCoordinates;
 use GridWorld\Grid\CartesianRegion;
 use GridWorld\Grid\Grid;
 use GridWorld\Grid\Tile;
 use GridWorld\Grid\CartesianGridView;
 use GridWorld\Search\AStarSearch;
+// spl_autoload_extensions(".php"); // comma-separated list
+// spl_autoload_register();
 require_once '../Grid/CartesianCoordinates.php';
 require_once '../Grid/CartesianGridView.php';
 require_once '../Search/AStarSearch.php';

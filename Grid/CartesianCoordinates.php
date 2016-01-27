@@ -9,6 +9,21 @@ class CartesianCoordinates extends Coordinates
     const SOUTH = "SOUTH";
     const WEST = "WEST";
     
+    private static $directions = null;
+    
+    public static function getDirections ()
+    {
+        if (self::$directions === null) {
+            self::$directions = [
+                    self::EAST => new self(1, 0),
+                    self::NORTH => new self(0, 1),
+                    self::WEST => new self(- 1, 0),
+                    self::SOUTH => new self(0, - 1)
+            ];
+        }
+        return self::$directions;
+    }
+    
     private $x;
 
     private $y;
@@ -31,19 +46,26 @@ class CartesianCoordinates extends Coordinates
         return $this->y;
     }
 
-    private function computeNeighbors() {
-    	$this->neighbors[NORTH] = $this->add(new CartesianCoordinates(0, 1));
-    	$this->neighbors[EAST] = $this->add(new CartesianCoordinates(1, 0));
-    	$this->neighbors[SOUTH] = $this->add(new CartesianCoordinates(0, -1));
-    	$this->neighbors[WEST] = $this->add(new CartesianCoordinates(-1, 0));
-    }
+//     private function computeNeighbors() {
+//     	$this->neighbors[self::NORTH] = $this->add(new CartesianCoordinates(0, 1));
+//     	$this->neighbors[self::EAST] = $this->add(new CartesianCoordinates(1, 0));
+//     	$this->neighbors[self::SOUTH] = $this->add(new CartesianCoordinates(0, -1));
+//     	$this->neighbors[self::WEST] = $this->add(new CartesianCoordinates(-1, 0));
+//     }
     
+    /**
+     * @param $direction
+     * @return Coordinates
+     * {@inheritDoc}
+     * @see \GridWorld\Grid\Coordinates::getNeighbor()
+     */
     public function getNeighbor($direction)
     {
-    	if (is_null($this->neighbors)) {
-    		$this->computeNeighbors();
-    	}
-        return $this->neighbors[$direction];
+        return $this->add(self::getDirections()[$direction]);
+//     	if (is_null($this->neighbors)) {
+//     		$this->computeNeighbors();
+//     	}
+//         return $this->neighbors[$direction];
     }
     
     public function getNeighbors() {
