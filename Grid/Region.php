@@ -5,12 +5,12 @@ use GridWorld\Grid\Coordinates;
 interface Region extends \Iterator
 {
     /**
-     * @return int
+     * @return integer
      */
     public function getWidth();
 
     /**
-     * @return int
+     * @return integer
      */
     public function getHeight();
 
@@ -22,11 +22,28 @@ interface Region extends \Iterator
     /**
      * @return Coordinates
      */
-    public function getMax();
+    public function getSize();
 
     /**
-     * 
+     * @return Coordinates
+     */
+    public function getMax();
+    
+    /**
+     * @return integer
+     */
+    public function getTileCount();
+
+    /**
+     * Are the specified $coordinates contained in this region?
      * @param Coordinates $coordinates
+     * @return boolean
      */
     public function contains ($coordinates);
+    
+    /**
+     * Produces random coordinates contained in this region. 
+     * @return Coordinates
+     */
+    public function sample_random();
 }

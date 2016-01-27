@@ -8,7 +8,6 @@ interface TileGenerator
 {
 
     /**
-     *
      * @param Grid $grid            
      * @param Region $region            
      * @param Tile $tile            
