@@ -4,17 +4,48 @@ namespace GridWorld\Search;
 class Node {
 
 	private $coordinates;
+	
+	/**
+	 * The path costs to reach this node.
+	 * @var double
+	 */
 	private $gValue;
+	
+	/**
+	 * The expected costs assigned to this node by a heuristic function.
+	 * @var double
+	 */
 	private $hValue;
+	
+	/**
+	 * The parent node in the search graph.
+	 * @var Node
+	 */
 	private $parent;
+	
+	/**
+	 * The label describes which action was applied to reach this node.
+	 * @var string
+	 */
+	private $label;
 
-	public function __construct($coordinate, $gValue, $parent = NULL, $hValue = 1) {
+	/**
+	 * 
+	 * @param unknown $coordinate
+	 * @param unknown $gValue
+	 * @param unknown $parent
+	 * @param number $hValue
+	 */
+	public function __construct(Coordinate $coordinate, $gValue, Node $parent = NULL, $hValue = 1) {
 		$this->coordinates = $coordinate;
 		$this->gValue = $gValue;
 		$this->hValue = $hValue;
 		$this->parent = $parent;
 	}
 
+	/**
+	 * 
+	 */
 	public function getGValue() {
 		return $this->gValue;
 	}
