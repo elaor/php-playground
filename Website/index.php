@@ -85,7 +85,7 @@ if (!$invalidInput) {
 	$search = new AStarSearch($start, $goal, $grid);
 	$found = $search->run();
 	if ($found) {
-		$plan = $search->extractPlan();
+		$plan = join(", ", $search->extractPlan());
 	}
 }
 
