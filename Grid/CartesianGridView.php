@@ -9,7 +9,7 @@ class CartesianGridView
 
     const TILE_SIZE_PX = 50;
 
-    public function gridToHTML ($grid, $region)
+    public function gridToHTML (Grid $grid, CartesianRegion $region, Coordinates $startPosition=null, Coordinates $goalPosition=null)
     {
         $output = '';
         $gridWidth = $region->getWidth() * self::TILE_SIZE_PX;
@@ -18,21 +18,30 @@ class CartesianGridView
         foreach ($region as $coordinates) {
             $tile = $grid->getTile($coordinates);
             $screenCoords = $this->coordsToScreen($coordinates, $region);
-            $output .= $this->tileToHTML($tile, $screenCoords);
+            $output .= $this->tileToHTML($tile, $screenCoords, $coordinates);
         }
         $output .= '</div>';
         return $output;
     }
 
-    private function tileToHTML ($tile, $screenCoords)
+    private function tileToHTML (Tile $tile, array $screenCoords, Coordinates $coordinates)
     {
         $classTile = 'clear';
+        $label = '';
         if (! ($tile->isClear())) {
             $classTile = 'occupied';
         }
+        if ($tile->hasStartMarker()) {
+        	$classTile = 'start';
+        	$label = 'start';
+        }
+        if ($tile->hasGoalMarker()) {
+        	$classTile = 'goal';
+        	$label = 'goal';
+        }
         return '<div class="tile ' . $classTile . '" style="left:' . $screenCoords[0] .
                'px; top:' . $screenCoords[1] . 'px; width:' . self::TILE_SIZE_PX . 'px; 
-               height:' . self::TILE_SIZE_PX . 'px;"></div>';
+               height:' . self::TILE_SIZE_PX . 'px;" title="'. $coordinates->__toString() . '">' . $label . '</div>';
     }
 
     private function coordsToScreen ($coordinates, $region)

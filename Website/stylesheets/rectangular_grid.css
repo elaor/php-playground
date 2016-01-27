@@ -3,12 +3,18 @@
 div#box {
 	opacity: 0.7;
     filter: alpha(opacity=70); /* For IE8 and earlier */
-	margin: auto;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 20px;
 	position: relative;
 }
 
 div.tile {
 	position: absolute;
+	font-size: 17px;
+	text-transform: uppercase;
+	padding: auto;
+	text-align: center;
 }
 
 div.clear {
@@ -17,4 +23,12 @@ div.clear {
 
 div.occupied {
 	background-color: #000000;
+}
+
+div.start {
+	background-color: #c0fcff;
+}
+
+div.goal {
+	background-color: #98a7eb;
 }

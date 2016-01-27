@@ -9,14 +9,20 @@
 </head>
 <body>
 <h1>Gridworld</h1>
-
-<div class="controls"><form action="index.php" method="post">1. Create a grid with size: <input class="glow" type="text" name="width" value="<?php echo $width ?>" maxlength="5" size="5"> X <input class="glow" type="text" name="height" value="<?php echo $height ?>" maxlength="5" size="5"> <input type="submit" value="go"></form></div>
-<div class="controls">2. Choose kind of obstacles: </div>
-<div class="controls">3. Set start [ ][ ] and goal [ ][ ] position.</div>
-<div class="controls">4. Start A*-Search with ... heuristic.</div>
+<form action="index.php" method="post">
+<div class="controls">1. Create a grid with size: <input class="glow" type="text" name="width" value="<?php echo $width; ?>" maxlength="5" size="5"> X <input class="glow" type="text" name="height" value="<?php echo $height; ?>" maxlength="5" size="5"> <input type="submit" value="go" name="go"></div>
+<div class="controls">2. Choose kind of obstacles: 
+      <select name="obstacles" > 
+        <option>Random Sampling (less obstacles)</option> 
+        <option>Random Sampling (many obstacles)</option> 
+        <option>Maze</option> 
+      </select> 
+<input type="submit" value="go" name="go"></div>
+<div class="controls">3. Choose start <input class="glow" type="text" name="start_x" value="<?php echo $startX; ?>" maxlength="5" size="5"><input class="glow" type="text" name="start_y" value="<?php echo $startY; ?>" maxlength="5" size="5"> and goal <input class="glow" type="text" name="goal_x" value="<?php echo $goalX; ?>" maxlength="5" size="5"><input class="glow" type="text" name="goal_y" value="<?php echo $goalY; ?>" maxlength="5" size="5"> position. <input type="submit" value="go" name="go"></div>
+</form>
+<form action="index.php" method="post"><div class="controls">4. Start A*-Search without TODO heuristic. <input type="submit" value="search" name="search"></div></form>
 <?php
 echo $output;
 ?>
-<p>Result of A*-Search: <?php echo $searchResult; ?></p>
 </body>
 </html>

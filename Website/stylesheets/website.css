@@ -6,34 +6,31 @@ body {
 	background: linear-gradient(to left, #70e1f5 , #ffd194); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */    
 	font-family: 'Lato', Tahoma, Geneva, sans-serif;
     font-size: 40px;
+    font-weight: lighter;
 }
 
 h1 {
 	font-family: 'Lato', Tahoma, Geneva, sans-serif;
 	font-size: 60px;
 	text-align: center;
+	font-weight: lighter;
+	font-style: italic;
 }
 
 div.controls {
-    margin: auto;
 	position: relative;
-	height:50px;
-	width:700px;
-	margin-bottom:10px;
-	font-size:25px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 10px;
+	font-size: 25px;
+	width: 800px;
+	font-weight: lighter;
+	font-style: italic;
 }
 
-/**
-input {
-	font-family: Tahoma, Geneva, sans-serif;
-	font-size: 20px;
-	background: #82cfff;
-	border-size: 0px;
-
-}**/
-
-input {
-  font-family: sans-serif;
+input, select {
+  /**font-family: sans-serif;**/
+  font-family: inherit;
   font-weight: lighter;
   font-size: 20px;
   appearance: none;
