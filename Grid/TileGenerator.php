@@ -8,11 +8,10 @@ interface TileGenerator
 {
 
     /**
-     *
      * @param Grid $grid            
      * @param Region $region            
      * @param Tile $tile            
      * @return void
      */
-    public abstract function fill_region ($grid, $region, $tile);
+    public function fill_region ($grid, $region, $tile);
 }

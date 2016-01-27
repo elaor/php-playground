@@ -1,6 +1,5 @@
 <?php
 namespace GridWorld\Grid;
-
 require_once 'CartesianCoordinates.php';
 require_once 'Region.php';
 
@@ -17,6 +16,10 @@ class CartesianRegion implements Region
 
     private $current_key;
 
+    /**
+     * @param CartesianCoordinates $min
+     * @param CartesianCoordinates $size
+     */
     public function __construct ($min, $size)
     {
         $this->min = $min;
@@ -24,21 +27,35 @@ class CartesianRegion implements Region
         $this->max = $min->add($size);
         $this->rewind();
     }
-    
-    public function getWidth() {
+
+    public function getWidth ()
+    {
         return $this->size->getX();
     }
 
-    public function getHeight() {
+    public function getHeight ()
+    {
         return $this->size->getY();
     }
 
-    public function getMin() {
+    public function getMin ()
+    {
         return $this->min;
     }
 
-    public function getMax() {
+    public function getMax ()
+    {
         return $this->max;
+    }
+
+    public function getSize ()
+    {
+        return $this->size;
+    }
+    
+    public function getTileCount()
+    {
+        return $this->size->getX() * $this->size->getY();
     }
 
     public function contains ($coordinates)
@@ -58,6 +75,13 @@ class CartesianRegion implements Region
         return true;
     }
 
+    public function sample_random ()
+    {
+        $x = mt_rand($this->min->getX(), $this->max->getX());
+        $y = mt_rand($this->min->getY(), $this->max->getY());
+        return new CartesianCoordinates($x, $y);
+    }
+
     public function rewind ()
     {
         $this->current_element = $this->min;
@@ -71,11 +95,12 @@ class CartesianRegion implements Region
 
     public function next ()
     {
-        $this->current_key++;
+        $this->current_key ++;
         $next = $this->current_element->getNeighbor(CartesianCoordinates::EAST);
         if (! $this->contains($next)) {
             $next = $next->getNeighbor(CartesianCoordinates::NORTH);
-            $next = $next->subtract((new CartesianCoordinates(1, 0))->scale($this->size->getX()));
+            $next = $next->subtract(
+                    (new CartesianCoordinates(1, 0))->scale($this->size->getX()));
         }
         $this->current_element = $next;
     }
@@ -89,7 +114,6 @@ class CartesianRegion implements Region
     {
         return $this->contains($this->current());
     }
-    
 }
 if (! debug_backtrace()) {
     $min = new CartesianCoordinates(20, 10);
