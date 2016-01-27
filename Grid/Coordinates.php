@@ -1,6 +1,8 @@
 <?php
+namespace GridWorld\Grid;
 
 abstract class Coordinates {
+	
 	
 	public abstract function add($other);
 	public abstract function scale($factor);

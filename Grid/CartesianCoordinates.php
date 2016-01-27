@@ -1,16 +1,14 @@
 <?php
-require_once 'coordinates.php';
+namespace GridWorld\Grid;
+require_once 'Coordinates.php';
 
 class CartesianCoordinates extends Coordinates
 {
     private static $neighbors = null;
     
-    const NORTH = 0;
-    
+    const NORTH = 0;  
     const EAST = 1;
-    
     const SOUTH = 2;
-    
     const WEST = 3;
     
     public static function getNeighbors ()

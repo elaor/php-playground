@@ -1,8 +1,8 @@
 <?php
-require_once 'grid.php';
-require_once 'cartesian_coordinates.php';
-require_once 'cartesian_region.php';
-require_once 'tile.php';
+namespace GridWorld\Grid;
+require_once 'Grid.php';
+require_once 'CartesianRegion.php';
+require_once 'Tile.php';
 
 class CartesianGridView
 {
@@ -59,7 +59,7 @@ if (! debug_backtrace()) {
     $test = new CartesianGridView();
     $output = $test->gridToHTML($grid, $region);
     // display website
-    require 'website/template.html';
+    require '../website/template.html';
 }
 
 
