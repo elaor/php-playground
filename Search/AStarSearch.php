@@ -85,7 +85,7 @@ class AStarSearch implements Search {
 		$path = [];
 		if (! is_null($this->goalNode)) {
 			$node = $this->goalNode;
-			while (! is_null($node)) {
+			while (! is_null($node->getParent())) {
 				$path[] = $node;
 				$node = $node->getParent();
 			}
@@ -97,7 +97,7 @@ class AStarSearch implements Search {
 		$plan = [];
 		if (! is_null($this->goalNode)) {
 			$node = $this->goalNode;
-			while (! is_null($node)) {
+			while (! is_null($node->getParent())) {
 				$plan[] = $node->getLabel();
 				$node = $node->getParent();
 			}
