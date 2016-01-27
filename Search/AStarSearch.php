@@ -62,7 +62,7 @@ class AStarSearch implements Search {
 				if ($this->grid->getTile ( $next )->isClear ()) {
 					// Get existing node or create a new one for this coordinate.
 					if (is_null($this->nodeMap [$next->getX ()] [$next->getY ()])) {
-						$successorNode = new Node ( $next, $node->getGValue () + 1, $node );
+						$successorNode = new Node ( $next, $node->getGValue () + 1, $node, $direction);
 						$this->openList->insert ( $successorNode, - $successorNode->getFValue () );
 					} else {
 						$successorNode = $this->nodeMap [$next];
@@ -82,14 +82,26 @@ class AStarSearch implements Search {
 	}
 	
 	public function extractPath() {
-		
+		$path = [];
+		if (! is_null($this->goalNode)) {
+			$node = $this->goalNode;
+			while (! is_null($node)) {
+				$path[] = $node;
+				$node = $node->getParent();
+			}
+		}
+		return array_reverse($path);
 	}
 	
 	public function extractPlan() {
 		$plan = [];
 		if (! is_null($this->goalNode)) {
-			
+			$node = $this->goalNode;
+			while (! is_null($node)) {
+				$plan[] = $node->getLabel();
+				$node = $node->getParent();
+			}
 		}
-		return $plan;
+		return array_reverse($plan);
 	}
 }
