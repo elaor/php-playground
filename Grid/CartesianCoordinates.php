@@ -56,9 +56,9 @@ class CartesianCoordinates extends Coordinates
     }
     
     public function getNeighbors() {
-        $neighbours = [];
-        foreach (self::$directions as $key => $direction) {
-            $neighbours[$key] = $this->add($direction);
+        $neighbors = [];
+        foreach (self::getDirections() as $key => $direction) {
+            $neighbors[$key] = $this->add($direction);
         }
     	return $neighbors;
     }
@@ -99,5 +99,6 @@ if (! debug_backtrace()) {
     echo $c;
     echo $d;
     echo $d->length();
+    var_dump($a->getNeighbors());
 }
 
