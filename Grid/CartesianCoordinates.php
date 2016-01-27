@@ -28,8 +28,6 @@ class CartesianCoordinates extends Coordinates
 
     private $y;
     
-    private $neighbors;
-
     public function __construct ($x, $y)
     {
         $this->x = $x;
@@ -46,13 +44,6 @@ class CartesianCoordinates extends Coordinates
         return $this->y;
     }
 
-//     private function computeNeighbors() {
-//     	$this->neighbors[self::NORTH] = $this->add(new CartesianCoordinates(0, 1));
-//     	$this->neighbors[self::EAST] = $this->add(new CartesianCoordinates(1, 0));
-//     	$this->neighbors[self::SOUTH] = $this->add(new CartesianCoordinates(0, -1));
-//     	$this->neighbors[self::WEST] = $this->add(new CartesianCoordinates(-1, 0));
-//     }
-    
     /**
      * @param $direction
      * @return Coordinates
@@ -62,17 +53,14 @@ class CartesianCoordinates extends Coordinates
     public function getNeighbor($direction)
     {
         return $this->add(self::getDirections()[$direction]);
-//     	if (is_null($this->neighbors)) {
-//     		$this->computeNeighbors();
-//     	}
-//         return $this->neighbors[$direction];
     }
     
     public function getNeighbors() {
-    	if (is_null($this->neighbors)) {
-    		$this->computeNeighbors();
-    	}
-    	return $this->neighbors;
+        $neighbours = [];
+        foreach (self::$directions as $key => $direction) {
+            $neighbours[$key] = $this->add($direction);
+        }
+    	return $neighbors;
     }
 
     public function __toString ()
