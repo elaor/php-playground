@@ -13,8 +13,7 @@ class CartesianGridView
 
     private $tile_size = 10;
 
-    public function gridToHTML (Grid $grid, CartesianRegion $region, 
-            Coordinates $startPosition = null, Coordinates $goalPosition = null)
+    public function gridToHTML (Grid $grid, CartesianRegion $region)
     {
         $tile_size = $this->computeTileSize($region->getWidth(), 
                 $region->getHeight());
@@ -46,6 +45,9 @@ class CartesianGridView
         $label = '';
         if (! ($tile->isClear())) {
             $classTile = 'occupied';
+        }
+        if ($tile->hasGoalPathMarker()) {
+        	$classTile = 'goalPath';
         }
         if ($tile->hasStartMarker()) {
             $classTile = 'start';

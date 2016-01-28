@@ -13,7 +13,6 @@ div.tile {
 	position: absolute;
 	font-size: 17px;
 	text-transform: uppercase;
-	padding: auto;
 	text-align: center;
 }
 
@@ -31,4 +30,8 @@ div.start {
 
 div.goal {
 	background-color: #98a7eb;
+}
+
+div.goalPath {
+	background-color: #eaefb8;
 }

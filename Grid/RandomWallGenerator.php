@@ -17,7 +17,7 @@ class RandomWallGenerator implements TileGenerator
      *            value between 0 and 1
      * @param integer $maxWallLength       
      */
-    public function __construct ($density, $maxWallLength = 3)
+    public function __construct ($density = 0.05, $maxWallLength = 5)
     {
         $this->density = $density;
         $this->maxWallLength = $maxWallLength;

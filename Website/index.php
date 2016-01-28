@@ -8,6 +8,7 @@ use GridWorld\Grid\CartesianGridView;
 use GridWorld\Search\AStarSearch;
 use GridWorld\Grid\EqualDistributionGenerator;
 use GridWorld\Grid\RandomWallGenerator;
+use GridWorld\Search\Node;
 // TODO how to use autoload?
 // spl_autoload_extensions(".php"); // comma-separated list
 // spl_autoload_register();
@@ -27,6 +28,7 @@ $startX = 5;
 $startY = 15;
 $goalX = 19;
 $goalY = 3;
+$plan = "no plan found.";
 
 // 1. Create a grid
 if ($_POST) {
@@ -62,7 +64,7 @@ if (!$invalidInput) {
 	$grid = new Grid();
 	
 	// 2. Set obstacles
-	$equal_sampler = new RandomWallGenerator(0.1);
+	$equal_sampler = new RandomWallGenerator(0.05, 5);
 	$equal_sampler->fill_region($grid, $region, new Tile(false));
 	
 	// 3. Set start and goal
@@ -75,16 +77,28 @@ if (!$invalidInput) {
 	$goalTile->setGoalMarker();
 	$grid->setTile($goal, $goalTile);
 	
-	// 4. Create a view of the grid
-	$view = new CartesianGridView();
-	$output = $view->gridToHTML($grid, $region);
 	
 	// Perform a search
 	$search = new AStarSearch($start, $goal, $grid);
 	$found = $search->run();
 	if ($found) {
 		$plan = join(", ", $search->extractPlan());
+		$path = $search->extractPath();
+		foreach ($path as $node) {
+			if (!$grid->getTile($node->getCoordinates())->isClear()) {
+				// TODO raise exception
+			}
+			else {
+				$tile = new Tile();
+				$tile->setGoalPathMarker();
+				$grid->setTile($node->getCoordinates(), $tile);
+			}
+		}
 	}
+	
+	// 4. Create a view of the grid
+	$view = new CartesianGridView();
+	$output = $view->gridToHTML($grid, $region);
 }
 
 # display website
