@@ -27,7 +27,6 @@ class RegionIterator implements \Iterator
     {
         $this->closedList = [];
         $this->openList = new \SplPriorityQueue();
-        $this->openList->setExtractFlags(\SplPriorityQueue::EXTR_DATA);
         $this->currentKey = 0;
         $this->currentValue = $this->start;
         $this->openList->insert($this->currentValue, 0);
@@ -36,12 +35,15 @@ class RegionIterator implements \Iterator
 
     public function next ()
     {
-        while (array_key_exists($this->openList->top()->getUniqueIndex(), $this->closedList)) {
-            $this->openList->extract();
-            if ($this->openList->isEmpty()) {
-                $this->isValid = false;
-                return;
+        while (! $this->openList->isEmpty()) {
+            if (! array_key_exists($this->openList->top()->getUniqueIndex(), $this->closedList)) {
+                break;
             }
+            $this->openList->extract();
+        }
+        if ($this->openList->isEmpty()) {
+            $this->isValid = false;
+            return;
         }
         $this->currentValue = $this->openList->extract();
         $this->currentKey ++;
@@ -51,7 +53,7 @@ class RegionIterator implements \Iterator
                 continue;
             }
             if ($this->region->contains($neighbor)) {
-                $this->openList->insert($neighbor, $this->start->subtract($neighbor)->length());
+                $this->openList->insert($neighbor, -$this->start->subtract($neighbor)->length());
             }
         }
     }

@@ -71,7 +71,6 @@ if (!$invalidInput) {
 	if (isset($_POST['obstacles'])) {
 	    $obstacle_mode = stripcleantohtml($_POST['obstacles']);
 	}
-	echo $obstacle_mode;
 	if ($obstacle_mode === 'random_many'){
     	// many obstacles
     	$filler_sampler = new EqualDistributionGenerator(0.6);
@@ -82,7 +81,6 @@ if (!$invalidInput) {
 	    // maze
     	$filler_sampler = new EqualDistributionGenerator(1);
     	$filler_sampler->fill_region($grid, $region, new Tile(false));
-	    $small_region = new DistanceRegion(new CartesianCoordinates(30, 40), 10);
     	$maze_sampler = new MazeGenerator();
     	$maze_sampler->fill_region($grid, $region, new Tile(true));
 	} else {
@@ -94,11 +92,16 @@ if (!$invalidInput) {
 	}
 	
 	// 3. Set start and goal
+	$filler_sampler = new EqualDistributionGenerator(1);
 	$start = new CartesianCoordinates($startX, $startY);
+	$small_start_region = new DistanceRegion($start, 6);
+	$filler_sampler->fill_region($grid, $small_start_region, new Tile(true));
 	$startTile = new Tile();
 	$startTile->setStartMarker();
 	$grid->setTile($start, $startTile);
 	$goal = new CartesianCoordinates($goalX, $goalY);
+	$small_goal_region = new DistanceRegion($goal, 6);
+	$filler_sampler->fill_region($grid, $small_goal_region, new Tile(true));
 	$goalTile = new Tile();
 	$goalTile->setGoalMarker();
 	$grid->setTile($goal, $goalTile);

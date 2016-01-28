@@ -34,9 +34,10 @@ class DistanceRegion implements Region
      */
     public function sample_random() {
         $coordinates = $this->center;
-        $directions = $this->center->getDirections();
-        foreach (array_slice($directions, 0, count($directions) / 2) as $direction) {
-            $coordinates = $coordinates->add($direction->scale(mt_rand(0, $this->radius)));
+        for ($i = 0; $i < $this->radius; $i++) {
+            $directions = $this->center->getDirections();
+            $direction = $directions[array_rand($directions)];
+            $coordinates = $coordinates->add($direction);
         }
         return $coordinates;
     }
