@@ -11,7 +11,7 @@ class CartesianCoordinates extends Coordinates
     
     private static $directions = null;
     
-    public static function getDirections ()
+    private static function getDirections_ ()
     {
         if (self::$directions === null) {
             self::$directions = [
@@ -43,6 +43,10 @@ class CartesianCoordinates extends Coordinates
     {
         return $this->y;
     }
+    
+    public function getDirections() {
+        return self::getDirections_();
+    }
 
     /**
      * @param $direction
@@ -52,12 +56,12 @@ class CartesianCoordinates extends Coordinates
      */
     public function getNeighbor($direction)
     {
-        return $this->add(self::getDirections()[$direction]);
+        return $this->add(self::getDirections_()[$direction]);
     }
     
     public function getNeighbors() {
         $neighbors = [];
-        foreach (self::getDirections() as $key => $direction) {
+        foreach (self::getDirections_() as $key => $direction) {
             $neighbors[$key] = $this->add($direction);
         }
     	return $neighbors;

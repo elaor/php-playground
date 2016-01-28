@@ -48,7 +48,12 @@ abstract class Coordinates {
 	 */
 	public abstract function getNeighbors();
 	
-    /**
+	/**
+	 * @return array
+	 */
+	public abstract function getDirections();
+	
+	/**
      * @return string unique string representation of these coordinates.
      */
 	public abstract function getUniqueIndex();
