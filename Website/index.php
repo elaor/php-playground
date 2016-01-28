@@ -80,9 +80,11 @@ if (!$invalidInput) {
     	$wall_sampler->fill_region($grid, $region, new Tile(true));
 	} elseif ($obstacle_mode === 'maze') {
 	    // maze
+    	$filler_sampler = new EqualDistributionGenerator(1);
+    	$filler_sampler->fill_region($grid, $region, new Tile(false));
 	    $small_region = new DistanceRegion(new CartesianCoordinates(30, 40), 10);
     	$maze_sampler = new MazeGenerator();
-    	$maze_sampler->fill_region($grid, $small_region, new Tile(false));
+    	$maze_sampler->fill_region($grid, $region, new Tile(true));
 	} else {
     	// few obstacles
 	    $equal_sampler = new EqualDistributionGenerator(0.2);

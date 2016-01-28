@@ -43,7 +43,7 @@ class MazeGenerator implements TileGenerator
             if (! $this->region->contains($two_step)) {
                 continue;
             }
-            if ($this->grid->getTile($two_step)->isClear()) {
+            if ($this->grid->getTile($two_step) != $this->tile) {
                 $this->grid->setTile($one_step, clone $this->tile);
                 $this->grid->setTile($two_step, clone $this->tile);
                 $this->maze_recursion($two_step);
