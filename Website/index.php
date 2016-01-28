@@ -7,6 +7,7 @@ use GridWorld\Grid\Tile;
 use GridWorld\Grid\CartesianGridView;
 use GridWorld\Search\AStarSearch;
 use GridWorld\Grid\EqualDistributionGenerator;
+use GridWorld\Search\Node;
 // TODO how to use autoload?
 // spl_autoload_extensions(".php"); // comma-separated list
 // spl_autoload_register();
@@ -77,16 +78,28 @@ if (!$invalidInput) {
 	$goalTile->setGoalMarker();
 	$grid->setTile($goal, $goalTile);
 	
-	// 4. Create a view of the grid
-	$view = new CartesianGridView();
-	$output = $view->gridToHTML($grid, $region);
 	
 	// Perform a search
 	$search = new AStarSearch($start, $goal, $grid);
 	$found = $search->run();
 	if ($found) {
 		$plan = join(", ", $search->extractPlan());
+		$path = $search->extractPath();
+		foreach ($path as $node) {
+			if (!$grid->getTile($node->getCoordinates())->isClear()) {
+				// TODO raise exception
+			}
+			else {
+				$tile = new Tile();
+				$tile->setGoalPathMarker();
+				$grid->setTile($node->getCoordinates(), $tile);
+			}
+		}
 	}
+	
+	// 4. Create a view of the grid
+	$view = new CartesianGridView();
+	$output = $view->gridToHTML($grid, $region);
 }
 
 # display website

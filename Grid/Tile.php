@@ -11,6 +11,7 @@ Class Tile {
 	private $isClear;
 	private $hasStartMarker;
 	private $hasGoalMarker;
+	private $hasGoalPathMarker;
 
 	public function __construct($isClear = true) {
 		$this->isClear = $isClear;
@@ -35,6 +36,8 @@ Class Tile {
 	 */
 	public function setStartMarker() {
 		$this->hasStartMarker = true;
+		$this->isClear = true;
+		// TODO is this overwriting of occupied desired?
 	}
 	
 	/**
@@ -44,6 +47,13 @@ Class Tile {
 		$this->hasGoalMarker = true;
 		$this->isClear = true;
 		// TODO is this overwriting of occupied desired?
+	}
+	
+	/**
+	 * @return void
+	 */
+	public function setGoalPathMarker() {
+		$this->hasGoalPathMarker = true;
 	}
 	
 	/**
@@ -60,6 +70,13 @@ Class Tile {
 	 */
 	public function hasGoalMarker() {
 		return $this->hasGoalMarker;
+	}
+	
+	/**
+	 * return boolean
+	 */
+	public function hasGoalPathMarker() {
+		return $this->hasGoalPathMarker;
 	}
 	
 	/**

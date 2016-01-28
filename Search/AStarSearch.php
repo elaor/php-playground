@@ -106,7 +106,7 @@ class AStarSearch implements Search
     {
         $path = [];
         if (! is_null($this->goalNode)) {
-            $node = $this->goalNode;
+            $node = $this->goalNode->getParent();
             while (! is_null($node->getParent())) {
                 $path[] = $node;
                 $node = $node->getParent();
