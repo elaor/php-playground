@@ -17,6 +17,11 @@ class Grid
         $this->tiles = [];
     }
 
+    /**
+     * 
+     * @param Coordinates $coordinates
+     * @return Tile
+     */
     public function getTile ($coordinates)
     {
         if (array_key_exists($coordinates->getUniqueIndex(), $this->tiles)) {

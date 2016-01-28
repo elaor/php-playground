@@ -5,6 +5,30 @@ require_once 'Coordinates.php';
 class HexCoordinates extends Coordinates
 {
 
+	private static $directions = null;
+
+	const EAST = 'EAST';
+	const NORTH_EAST = 'NORTH_EAST';
+	const NORTH_WEST = 'NORTH_WEST';
+	const WEST = 'WEST';
+	const SOUTH_WEST = 'SOUTH_WEST';
+	const SOUTH_EAST = 'SOUTH_EAST';
+
+	private static function getDirections_ ()
+	{
+		if (self::$directions === null) {
+			self::$directions = [
+					self::EAST => new HexCoordinates(1, 0),
+					self::NORTH_EAST => new HexCoordinates(0, 1),
+					self::NORTH_WEST => new HexCoordinates(- 1, 1),
+					self::WEST => new HexCoordinates(- 1, 0),
+					self::SOUTH_WEST => new HexCoordinates(0, - 1),
+					self::SOUTH_EAST => new HexCoordinates(1, - 1)
+			];
+		}
+		return self::$directions;
+	}
+	
     private $x;
 
     private $y;
@@ -58,6 +82,25 @@ class HexCoordinates extends Coordinates
         return $this->add(HexDirections::getNeighbors()[$direction]);
     }
 
+    /**
+     * @param $direction
+     * @return Coordinates
+     * {@inheritDoc}
+     * @see \GridWorld\Grid\Coordinates::getNeighbor()
+     */
+    public function getNeighbor($direction)
+    {
+        return $this->add(self::getDirections_()[$direction]);
+    }
+    
+    public function getNeighbors() {
+        $neighbors = [];
+        foreach (self::getDirections_() as $key => $direction) {
+            $neighbors[$key] = $this->add($direction);
+        }
+    	return $neighbors;
+    }
+    
     public function getUniqueIndex ()
     {
         return $this->__toString();

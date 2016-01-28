@@ -8,7 +8,7 @@ use GridWorld\Grid\CartesianGridView;
 use GridWorld\Search\AStarSearch;
 use GridWorld\Grid\EqualDistributionGenerator;
 use GridWorld\Grid\RandomWallGenerator;
-use GridWorld\Search\Node;
+use GridWorld\Grid\MazeGenerator;
 // TODO how to use autoload?
 // spl_autoload_extensions(".php"); // comma-separated list
 // spl_autoload_register();
@@ -17,6 +17,7 @@ require_once '../Grid/CartesianGridView.php';
 require_once '../Search/AStarSearch.php';
 require_once '../Grid/EqualDistributionGenerator.php';
 require_once '../Grid/RandomWallGenerator.php';
+require_once '../Grid/MazeGenerator.php';
 require_once 'utility.php';
 
 $invalidInput = false;
@@ -64,8 +65,30 @@ if (!$invalidInput) {
 	$grid = new Grid();
 	
 	// 2. Set obstacles
-	$equal_sampler = new RandomWallGenerator(0.05, 5);
-	$equal_sampler->fill_region($grid, $region, new Tile(false));
+	$obstacle_mode = 'random_few';
+	if (isset($_POST['obstacles'])) {
+	    $obstacle_mode = stripcleantohtml($_POST['obstacles']);
+	}
+	echo $obstacle_mode;
+	if ($obstacle_mode === 'random_many'){
+    	// many obstacles
+    	$filler_sampler = new EqualDistributionGenerator(1);
+    	$filler_sampler->fill_region($grid, $region, new Tile(false));
+    	$equal_sampler = new EqualDistributionGenerator(0.2);
+    	$equal_sampler->fill_region($grid, $region, new Tile(true));
+    	$wall_sampler = new RandomWallGenerator(0.05, 7);
+    	$wall_sampler->fill_region($grid, $region, new Tile(true));
+	} elseif ($obstacle_mode === 'maze') {
+	    // maze
+    	$maze_sampler = new MazeGenerator();
+    	$maze_sampler->fill_region($grid, $region, new Tile(false));
+	} else {
+    	// few obstacles
+	    $equal_sampler = new EqualDistributionGenerator(0.2);
+	    $equal_sampler->fill_region($grid, $region, new Tile(false));
+	    $wall_sampler = new RandomWallGenerator(0.01, 4);
+	    $wall_sampler->fill_region($grid, $region, new Tile(false));
+	}
 	
 	// 3. Set start and goal
 	$start = new CartesianCoordinates($startX, $startY);
@@ -79,7 +102,7 @@ if (!$invalidInput) {
 	
 	
 	// Perform a search
-	$search = new AStarSearch($start, $goal, $grid);
+	$search = new AStarSearch($start, $goal, $grid, $region);
 	$found = $search->run();
 	if ($found) {
 		$plan = join(", ", $search->extractPlan());

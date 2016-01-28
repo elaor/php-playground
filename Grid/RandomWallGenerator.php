@@ -34,6 +34,9 @@ class RandomWallGenerator implements TileGenerator
                 for ($wall_length = 0; $wall_length < $this->maxWallLength; $wall_length++) {
                     $grid->setTile($coordinates, clone $tile);
                     $coordinates = $coordinates->add($direction);
+                    if (! $region->contains($coordinates)){
+                        break;
+                    }
                 }
             }
         }
