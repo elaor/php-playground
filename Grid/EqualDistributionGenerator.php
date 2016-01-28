@@ -21,8 +21,7 @@ class EqualDistributionGenerator implements TileGenerator
 
     public function fill_region ($grid, $region, $tile)
     {
-        for ($i = 0; $i < $region->getTileCount(); $i ++) {
-            $coordinates = $region->sample_random();
+        foreach (new RegionIterator($region) as $coordinates) {
             $score = mt_rand() / mt_getrandmax();
             if ($score < $this->density) {
                 $grid->setTile($coordinates, clone $tile);

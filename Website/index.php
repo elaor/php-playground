@@ -18,6 +18,7 @@ require_once '../Search/AStarSearch.php';
 require_once '../Grid/EqualDistributionGenerator.php';
 require_once '../Grid/RandomWallGenerator.php';
 require_once '../Grid/MazeGenerator.php';
+require_once '../Grid/RegionIterator.php';
 require_once 'utility.php';
 
 $invalidInput = false;
