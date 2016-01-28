@@ -13,5 +13,5 @@ interface TileGenerator
      * @param Tile $tile            
      * @return void
      */
-    public function fill_region ($grid, $region, $tile);
+    public function fillRegion ($grid, $region, $tile);
 }

@@ -9,6 +9,7 @@ use GridWorld\Search\AStarSearch;
 use GridWorld\Grid\EqualDistributionGenerator;
 use GridWorld\Grid\RandomWallGenerator;
 use GridWorld\Grid\MazeGenerator;
+use GridWorld\Search\ManhattanHeuristic;
 // TODO how to use autoload?
 // spl_autoload_extensions(".php"); // comma-separated list
 // spl_autoload_register();
@@ -20,6 +21,7 @@ require_once '../Grid/RandomWallGenerator.php';
 require_once '../Grid/MazeGenerator.php';
 require_once '../Grid/RegionIterator.php';
 require_once '../Grid/DistanceRegion.php';
+require_once '../Search/ManhattanHeuristic.php';
 require_once 'utility.php';
 
 $invalidInput = false;
@@ -74,41 +76,42 @@ if (!$invalidInput) {
 	if ($obstacle_mode === 'random_many'){
     	// many obstacles
     	$filler_sampler = new EqualDistributionGenerator(0.6);
-    	$filler_sampler->fill_region($grid, $region, new Tile(false));
+    	$filler_sampler->fillRegion($grid, $region, new Tile(false));
     	$wall_sampler = new RandomWallGenerator(0.05, 7);
-    	$wall_sampler->fill_region($grid, $region, new Tile(true));
+    	$wall_sampler->fillRegion($grid, $region, new Tile(true));
 	} elseif ($obstacle_mode === 'maze') {
 	    // maze
     	$filler_sampler = new EqualDistributionGenerator(1);
-    	$filler_sampler->fill_region($grid, $region, new Tile(false));
+    	$filler_sampler->fillRegion($grid, $region, new Tile(false));
     	$maze_sampler = new MazeGenerator();
-    	$maze_sampler->fill_region($grid, $region, new Tile(true));
+    	$maze_sampler->fillRegion($grid, $region, new Tile(true));
 	} else {
     	// few obstacles
 	    $equal_sampler = new EqualDistributionGenerator(0.2);
-	    $equal_sampler->fill_region($grid, $region, new Tile(false));
+	    $equal_sampler->fillRegion($grid, $region, new Tile(false));
 	    $wall_sampler = new RandomWallGenerator(0.01, 4);
-	    $wall_sampler->fill_region($grid, $region, new Tile(false));
+	    $wall_sampler->fillRegion($grid, $region, new Tile(false));
 	}
 	
 	// 3. Set start and goal
 	$filler_sampler = new EqualDistributionGenerator(1);
 	$start = new CartesianCoordinates($startX, $startY);
 	$small_start_region = new DistanceRegion($start, 6);
-	$filler_sampler->fill_region($grid, $small_start_region, new Tile(true));
+	$filler_sampler->fillRegion($grid, $small_start_region, new Tile(true));
 	$startTile = new Tile();
 	$startTile->setStartMarker();
 	$grid->setTile($start, $startTile);
 	$goal = new CartesianCoordinates($goalX, $goalY);
 	$small_goal_region = new DistanceRegion($goal, 6);
-	$filler_sampler->fill_region($grid, $small_goal_region, new Tile(true));
+	$filler_sampler->fillRegion($grid, $small_goal_region, new Tile(true));
 	$goalTile = new Tile();
 	$goalTile->setGoalMarker();
 	$grid->setTile($goal, $goalTile);
 	
 	
 	// Perform a search
-	$search = new AStarSearch($start, $goal, $grid, $region);
+	$heuristic = new ManhattanHeuristic();
+	$search = new AStarSearch($start, $goal, $grid, $heuristic, $region);
 	$found = $search->run();
 	if ($found) {
 		$plan = join(", ", $search->extractPlan());

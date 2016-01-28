@@ -38,7 +38,7 @@ class Node {
 	 * @param unknown $parent
 	 * @param number $hValue
 	 */
-	public function __construct(Coordinates $coordinate, $gValue, Node $parent = NULL, $label = "", $hValue = 1) {
+	public function __construct(Coordinates $coordinate, $gValue, $hValue, Node $parent = NULL, $label = "") {
 		$this->coordinates = $coordinate;
 		$this->gValue = $gValue;
 		$this->hValue = $hValue;

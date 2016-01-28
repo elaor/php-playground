@@ -23,7 +23,7 @@ class RandomWallGenerator implements TileGenerator
         $this->maxWallLength = $maxWallLength;
     }
 
-    public function fill_region ($grid, $region, $tile)
+    public function fillRegion ($grid, $region, $tile)
     {
         for ($i = 0; $i < $region->getTileCount(); $i ++) {
             $coordinates = $region->sample_random();

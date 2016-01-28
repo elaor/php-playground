@@ -22,6 +22,8 @@ class AStarSearch implements Search
     private $openList;
 
     private $closedList = [];
+    
+    private $heuristic;
 
     /**
      * For each coordinate, there should be at most one corresponding node.
@@ -31,13 +33,15 @@ class AStarSearch implements Search
     private $nodeMap;
 
     public function __construct (Coordinates $start, Coordinates $goal, 
-            Grid $grid, Region $region = null)
+            Grid $grid, Heuristic $heuristic, Region $region = null)
     {
-        // Use start coordinates to create a search node
-        $this->initNode = new Node($start, 0);
         $this->goalCoordinates = $goal;
         $this->grid = $grid;
+        $this->heuristic = $heuristic;
         $this->region = $region;
+        
+        // Use start coordinates to create a search node
+        $this->initNode = new Node($start, 0, $heuristic->getHeuristicValue($start, $goal));
         
         $this->openList = new \SplPriorityQueue();
         
@@ -78,6 +82,7 @@ class AStarSearch implements Search
                     if (is_null(
                             $this->nodeMap[$next->getUniqueIndex()])) {
                         $successorNode = new Node($next, $node->getGValue() + 1, 
+                        		$this->heuristic->getHeuristicValue($next, $this->goalCoordinates), 
                                 $node, $direction);
                         $this->openList->insert($successorNode, 
                                 - $successorNode->getFValue());

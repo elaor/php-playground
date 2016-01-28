@@ -19,7 +19,7 @@ class EqualDistributionGenerator implements TileGenerator
         $this->density = $density;
     }
 
-    public function fill_region ($grid, $region, $tile)
+    public function fillRegion ($grid, $region, $tile)
     {
         foreach (new RegionIterator($region) as $coordinates) {
             $score = mt_rand(0,100) / 100;

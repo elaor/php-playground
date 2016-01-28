@@ -18,7 +18,7 @@ class MazeGenerator implements TileGenerator
     public function __construct ()
     {}
 
-    public function fill_region ($grid, $region, $tile)
+    public function fillRegion($grid, $region, $tile)
     {
         $this->grid = $grid;
         $this->region = $region;
@@ -26,14 +26,14 @@ class MazeGenerator implements TileGenerator
         $coordinates = $region->sample_random();
         
         $this->grid->setTile($coordinates, clone $this->tile);
-        $this->maze_recursion($coordinates);
+        $this->mazeRecursion($coordinates);
     }
 
     /**
      *
      * @param Coordinates $coordinates            
      */
-    private function maze_recursion ($coordinates)
+    private function mazeRecursion ($coordinates)
     {
         $directions = $coordinates->getDirections();
         shuffle($directions);
@@ -46,7 +46,7 @@ class MazeGenerator implements TileGenerator
             if ($this->grid->getTile($two_step) != $this->tile) {
                 $this->grid->setTile($one_step, clone $this->tile);
                 $this->grid->setTile($two_step, clone $this->tile);
-                $this->maze_recursion($two_step);
+                $this->mazeRecursion($two_step);
             }
         }
     }
