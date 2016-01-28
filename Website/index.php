@@ -19,6 +19,7 @@ require_once '../Grid/EqualDistributionGenerator.php';
 require_once '../Grid/RandomWallGenerator.php';
 require_once '../Grid/MazeGenerator.php';
 require_once '../Grid/RegionIterator.php';
+require_once '../Grid/DistanceRegion.php';
 require_once 'utility.php';
 
 $invalidInput = false;
@@ -73,16 +74,15 @@ if (!$invalidInput) {
 	echo $obstacle_mode;
 	if ($obstacle_mode === 'random_many'){
     	// many obstacles
-    	$filler_sampler = new EqualDistributionGenerator(1);
+    	$filler_sampler = new EqualDistributionGenerator(0.6);
     	$filler_sampler->fill_region($grid, $region, new Tile(false));
-    	$equal_sampler = new EqualDistributionGenerator(0.2);
-    	$equal_sampler->fill_region($grid, $region, new Tile(true));
     	$wall_sampler = new RandomWallGenerator(0.05, 7);
     	$wall_sampler->fill_region($grid, $region, new Tile(true));
 	} elseif ($obstacle_mode === 'maze') {
 	    // maze
+	    $small_region = new DistanceRegion(new CartesianCoordinates(30, 40), 10);
     	$maze_sampler = new MazeGenerator();
-    	$maze_sampler->fill_region($grid, $region, new Tile(false));
+    	$maze_sampler->fill_region($grid, $small_region, new Tile(false));
 	} else {
     	// few obstacles
 	    $equal_sampler = new EqualDistributionGenerator(0.2);

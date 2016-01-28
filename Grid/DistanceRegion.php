@@ -17,36 +17,6 @@ class DistanceRegion implements Region
     }
     
     /**
-     * @return integer
-     */
-    public function getWidth();
-
-    /**
-     * @return integer
-     */
-    public function getHeight();
-
-    /**
-     * @return Coordinates
-     */
-    public function getMin();
-
-    /**
-     * @return Coordinates
-     */
-    public function getSize();
-
-    /**
-     * @return Coordinates
-     */
-    public function getMax();
-    
-    /**
-     * @return integer
-     */
-    public function getTileCount();
-
-    /**
      * Are the specified $coordinates contained in this region?
      * @param Coordinates $coordinates
      * @return boolean
@@ -62,7 +32,14 @@ class DistanceRegion implements Region
      * Produces random coordinates contained in this region. 
      * @return Coordinates
      */
-    public function sample_random();
+    public function sample_random() {
+        $coordinates = $this->center;
+        $directions = $this->center->getDirections();
+        foreach (array_slice($directions, 0, count($directions) / 2) as $direction) {
+            $coordinates = $coordinates->add($direction->scale(mt_rand(0, $this->radius)));
+        }
+        return $coordinates;
+    }
     
     private $center = null;
     private $radius = 0;

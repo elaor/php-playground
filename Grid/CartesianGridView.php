@@ -22,7 +22,7 @@ class CartesianGridView
         $gridHeight = $region->getHeight() * $this->tile_size;
         $output .= '<div id="box" style="width: ' . $gridWidth . 'px; height:' .
                  $gridHeight . 'px;">';
-        foreach ($region as $coordinates) {
+        foreach (new RegionIterator($region) as $coordinates) {
             $tile = $grid->getTile($coordinates);
             $screenCoords = $this->coordsToScreen($coordinates, $region);
             $output .= $this->tileToHTML($tile, $screenCoords, $coordinates);

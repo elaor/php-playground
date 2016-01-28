@@ -12,10 +12,6 @@ class CartesianRegion implements Region
 
     private $size;
 
-    private $current_element;
-
-    private $current_key;
-
     /**
      * @param CartesianCoordinates $min
      * @param CartesianCoordinates $size
@@ -25,34 +21,51 @@ class CartesianRegion implements Region
         $this->min = $min;
         $this->size = $size;
         $this->max = $min->add($size);
-        $this->rewind();
     }
 
+    /**
+     * @return integer
+     */
     public function getWidth ()
     {
         return $this->size->getX();
     }
 
+    /**
+     * @return integer
+     */
     public function getHeight ()
     {
         return $this->size->getY();
     }
 
+    /**
+     * @return Coordinates
+     */
     public function getMin ()
     {
         return $this->min;
     }
 
+    /**
+     * @return Coordinates
+     */
     public function getMax ()
     {
         return $this->max;
     }
 
+    /**
+     * @return Coordinates
+     */
     public function getSize ()
     {
         return $this->size;
     }
     
+    /**
+     * @return integer
+     */
     public function getTileCount()
     {
         return $this->size->getX() * $this->size->getY();
@@ -82,38 +95,38 @@ class CartesianRegion implements Region
         return new CartesianCoordinates($x, $y);
     }
 
-    public function rewind ()
-    {
-        $this->current_element = $this->min;
-        $this->current_key = 0;
-    }
+//     public function rewind ()
+//     {
+//         $this->current_element = $this->min;
+//         $this->current_key = 0;
+//     }
 
-    public function current ()
-    {
-        return $this->current_element;
-    }
+//     public function current ()
+//     {
+//         return $this->current_element;
+//     }
 
-    public function next ()
-    {
-        $this->current_key ++;
-        $next = $this->current_element->getNeighbor(CartesianCoordinates::EAST);
-        if (! $this->contains($next)) {
-            $next = $next->getNeighbor(CartesianCoordinates::NORTH);
-            $next = $next->subtract(
-                    (new CartesianCoordinates(1, 0))->scale($this->size->getX()));
-        }
-        $this->current_element = $next;
-    }
+//     public function next ()
+//     {
+//         $this->current_key ++;
+//         $next = $this->current_element->getNeighbor(CartesianCoordinates::EAST);
+//         if (! $this->contains($next)) {
+//             $next = $next->getNeighbor(CartesianCoordinates::NORTH);
+//             $next = $next->subtract(
+//                     (new CartesianCoordinates(1, 0))->scale($this->size->getX()));
+//         }
+//         $this->current_element = $next;
+//     }
 
-    public function key ()
-    {
-        return $this->current_key;
-    }
+//     public function key ()
+//     {
+//         return $this->current_key;
+//     }
 
-    public function valid ()
-    {
-        return $this->contains($this->current());
-    }
+//     public function valid ()
+//     {
+//         return $this->contains($this->current());
+//     }
 }
 if (! debug_backtrace()) {
     $min = new CartesianCoordinates(20, 10);

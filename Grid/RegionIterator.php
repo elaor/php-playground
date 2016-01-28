@@ -36,6 +36,13 @@ class RegionIterator implements \Iterator
 
     public function next ()
     {
+        while (array_key_exists($this->openList->top()->getUniqueIndex(), $this->closedList)) {
+            $this->openList->extract();
+            if ($this->openList->isEmpty()) {
+                $this->isValid = false;
+                return;
+            }
+        }
         $this->currentValue = $this->openList->extract();
         $this->currentKey ++;
         $this->closedList[$this->currentValue->getUniqueIndex()] = true;
@@ -45,14 +52,6 @@ class RegionIterator implements \Iterator
             }
             if ($this->region->contains($neighbor)) {
                 $this->openList->insert($neighbor, $this->start->subtract($neighbor)->length());
-            }
-        }
-        while (array_key_exists($this->openList->top()->getUniqueIndex(), 
-                $this->closedList)) {
-            $this->openList->extract();
-            if ($this->openList->isEmpty()) {
-                $this->isValid = false;
-                break;
             }
         }
     }
